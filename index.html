@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GPS Signal Test</title>
+</head>
+<body>
+    <h1>GPS Signal Test</h1>
+    <button onclick="testGPS()">Test GPS Signal</button>
+    <p id="status"></p>
+
+    <script>
+        function testGPS() {
+            if ("geolocation" in navigator) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        document.getElementById("status").textContent = "GPS Signal Received: Latitude " + position.coords.latitude + ", Longitude " + position.coords.longitude;
+                    },
+                    function(error) {
+                        switch (error.code) {
+                            case error.PERMISSION_DENIED:
+                                document.getElementById("status").textContent = "Permission to access GPS denied.";
+                                break;
+                            case error.POSITION_UNAVAILABLE:
+                                document.getElementById("status").textContent = "GPS information is unavailable.";
+                                break;
+                            case error.TIMEOUT:
+                                document.getElementById("status").textContent = "The request to get user location timed out.";
+                                break;
+                            case error.UNKNOWN_ERROR:
+                                document.getElementById("status").textContent = "An unknown error occurred.";
+                                break;
+                        }
+                    }
+                );
+            } else {
+                document.getElementById("status").textContent = "GPS is not supported in this browser.";
+            }
+        }
+    </script>
+</body>
+</html>
